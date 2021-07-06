@@ -1,5 +1,7 @@
 const express=require('express');
 const connectDB= require('./config/db')
+const bodyParser=require('body-parser')
+
 const userRoutes=require('./routes/api/user')
 const profileRoutes=require('./routes/api/profile.js')
 const authRoutes=require('./routes/api/auth')
@@ -8,6 +10,8 @@ const app = express();
 
 // Init Middleware
 app.use(express.json());
+// app.use(bodyParser.urlencoded({extended:false}))
+// app.use(bodyParser.json())
 
 
 

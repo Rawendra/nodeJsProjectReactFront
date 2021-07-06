@@ -3,7 +3,8 @@ const { check, validationResult } = require('express-validator');
 
 
 const router=express.Router();
-router.get('/',(req,res)=>{
+router.post('/',(req,res)=>{;
+    console.log(req.body)
     res.send('auth')
 })
 module.exports=router
