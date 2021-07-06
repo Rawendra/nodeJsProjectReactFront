@@ -2,6 +2,8 @@ const express = require("express");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const keys = require("../../config/default.json");
+const passport=require('passport')
 
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/user");
@@ -30,7 +32,7 @@ router.post(
 );
 
 router.post("/login", (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, name } = req.body;
   User.findOne({ email }).then((user) => {
     if (!user) {
       return res.status(404).json({ email: "User not found" });
@@ -38,7 +40,16 @@ router.post("/login", (req, res) => {
     //check the password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
-        res.json({ msg: "Success" });
+       // res.json({ msg: "Success" });
+        //assing web token
+        const payload = { id: email, name };
+        console.log('printing the secret key'+keys.secretKey)
+        jwt.sign(payload, keys.secretKey, { expiresIn: 3600 }, (err, token) => {
+          if (err) {
+            return res.status(400).json({ msg: "error while authorizing" });
+          }
+          res.json({ success: true, token: "Bearer " + token });
+        });
       } else {
         return res.status(400).json({ password: "password is incorrect" });
       }
@@ -76,4 +87,10 @@ router.post("/register", (req, res) => {
   });
 });
 
+router.get('/current',passport.authenticate('jwt',{session:false}),
+(req,res)=>{
+  console.log(req)
+  const {name,email, avatar,date}= req.user
+  res.json({msg:"success",name,email, avatar,date})
+})
 module.exports = router;

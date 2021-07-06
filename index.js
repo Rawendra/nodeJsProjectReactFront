@@ -1,6 +1,6 @@
 const express=require('express');
 const connectDB= require('./config/db')
-const bodyParser=require('body-parser')
+const passport= require('passport')
 
 const userRoutes=require('./routes/api/user')
 const profileRoutes=require('./routes/api/profile.js')
@@ -17,7 +17,9 @@ app.use(express.json());
 
 
 connectDB();
-
+//passport middleware
+app.use(passport.initialize())
+require('./config/passport')(passport)
 //including all the routes as middleware on express app
 app.use('/api/users',userRoutes);
 app.use('/api/profiles',profileRoutes);
