@@ -3,7 +3,8 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/default.json");
-const passport=require('passport')
+const passport = require("passport");
+const validateRegisterInput = require("../../validator/register");
 
 const { check, validationResult } = require("express-validator");
 const User = require("../../models/user");
@@ -40,10 +41,10 @@ router.post("/login", (req, res) => {
     //check the password
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
-       // res.json({ msg: "Success" });
+        // res.json({ msg: "Success" });
         //assing web token
         const payload = { id: email, name };
-        console.log('printing the secret key'+keys.secretKey)
+        console.log("printing the secret key" + keys.secretKey);
         jwt.sign(payload, keys.secretKey, { expiresIn: 3600 }, (err, token) => {
           if (err) {
             return res.status(400).json({ msg: "error while authorizing" });
@@ -65,6 +66,10 @@ router.get("/", (req, res) => {
 router.post("/register", (req, res) => {
   const { email, name, password } = req.body;
   console.log(req.body);
+  const { errors, isValid } = validateRegisterInput({name:name});
+  if (!isValid) {
+    return res.status(400).json({ errors, isValid });
+  }
 
   User.findOne({ email: email }).then((user) => {
     if (user) {
@@ -87,10 +92,13 @@ router.post("/register", (req, res) => {
   });
 });
 
-router.get('/current',passport.authenticate('jwt',{session:false}),
-(req,res)=>{
-  console.log(req)
-  const {name,email, avatar,date}= req.user
-  res.json({msg:"success",name,email, avatar,date})
-})
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req);
+    const { name, email, avatar, date } = req.user;
+    res.json({ msg: "success", name, email, avatar, date });
+  }
+);
 module.exports = router;
