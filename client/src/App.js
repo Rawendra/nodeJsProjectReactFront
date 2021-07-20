@@ -1,10 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-
+import Navbar from './components/layout/navbar';
+import Footer from './components/layout/footer';
+import Landing from './components/layout/landing';
 function App() {
   return (
     <div className="App">
-      <h1>MY react APP</h1>
+      <Navbar />
+      <Landing />
+      <Footer />
     
     </div>
   );
