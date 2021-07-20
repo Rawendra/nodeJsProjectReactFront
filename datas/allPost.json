@@ -1,0 +1,53 @@
+{
+  "data": [
+    {
+      "_id": "60f65b9669fb235968bdce67",
+      "name": "rawendra",
+      "text": "this is awesome1111",
+      "avatar": "myAvatar",
+      "user": "60e2fab56cf8635934d3051a",
+      "likes": [],
+      "comments": [],
+      "date": "2021-07-20T05:13:58.073Z",
+      "__v": 0
+    },
+    {
+      "_id": "60f65b9d69fb235968bdce6a",
+      "name": "rawendra",
+      "text": "this is awesome1112",
+      "avatar": "myAvatar",
+      "user": "60e2fab56cf8635934d3051a",
+      "likes": [],
+      "comments": [],
+      "date": "2021-07-20T05:14:05.032Z",
+      "__v": 0
+    },
+    {
+      "_id": "60f65ba069fb235968bdce6d",
+      "name": "rawendra",
+      "text": "this is awesome1113",
+      "avatar": "myAvatar",
+      "user": "60e2fab56cf8635934d3051a",
+      "likes": [],
+      "comments": [],
+      "date": "2021-07-20T05:14:08.487Z",
+      "__v": 0
+    },
+    {
+      "_id": "60f66155696a9f41d8008fa7",
+      "name": "rawendra",
+      "text": "this is awesome1113",
+      "avatar": "myAvatar",
+      "user": "60e2fab56cf8635934d3051a",
+      "likes": [
+        {
+          "_id": "60f66493658d404b603b31cd",
+          "user": "60e2fab56cf8635934d3051a"
+        }
+      ],
+      "comments": [],
+      "date": "2021-07-20T05:38:29.034Z",
+      "__v": 1
+    }
+  ]
+}
