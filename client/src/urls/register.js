@@ -1,0 +1,1 @@
+export const registerNewUserUrl='api/users/register'
