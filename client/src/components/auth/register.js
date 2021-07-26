@@ -3,8 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { registerNewUserUrl } from "../../urls/register";
 import { baseUrl } from "../../urls/baseUrl";
-import {validateRegistrationUser} from '../../utils/validation'
-export default class Register extends Component {
+import { validateRegistrationUser } from "../../utils/validation";
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
+
+class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -22,23 +25,25 @@ export default class Register extends Component {
     e.preventDefault();
     console.log("data to be submitted", this.state);
     console.log(baseUrl, registerNewUserUrl);
-    const { name, email, password,password2 } = this.state;
-    const obj = { name, email, password,password2 };
-    const statusOfValidation=validateRegistrationUser(obj);
-    if(statusOfValidation.errors){
+    const { name, email, password, password2 } = this.state;
+    const obj = { name, email, password, password2 };
+    const statusOfValidation = validateRegistrationUser(obj);
+    if (statusOfValidation.errors) {
       alert(statusOfValidation.errors);
-      return ;
+      return;
     }
     axios.post(`${registerNewUserUrl}`, obj).then((response) => {
       console.log(response);
     });
+    this.props.registerUser(obj);
   };
   render() {
     const { name, email, password, password2 } = this.state;
     const { onChange, onSubmit } = this;
+    
     return (
       <div style={{ textAlign: "center" }}>
-        <h1 className="large text-primary">Sign Up</h1>
+        <h1 className="large text-primary">Sign Up  </h1>
         <p className="lead">
           <i className="fas fa-user" /> Create Your Account
         </p>
@@ -92,3 +97,12 @@ export default class Register extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { auth } = state;
+  return {
+    auth: auth,
+  };
+};
+
+export default connect(mapStateToProps, { registerUser })(Register);
