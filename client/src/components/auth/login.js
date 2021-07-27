@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-export default class Login extends Component {
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/authActions";
+
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -55,3 +58,12 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const { auth, errors } = state;
+  return {
+    auth,
+    errors,
+  };
+};
+export default connect(mapStateToProps, { loginUser })(Login);

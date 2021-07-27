@@ -6,7 +6,7 @@ import { baseUrl } from "../../urls/baseUrl";
 import { validateRegistrationUser } from "../../utils/validation";
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
-
+import {withRouter} from 'react-router-dom'
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -28,22 +28,21 @@ class Register extends Component {
     const { name, email, password, password2 } = this.state;
     const obj = { name, email, password, password2 };
     const statusOfValidation = validateRegistrationUser(obj);
-    if (statusOfValidation.errors) {
-      alert(statusOfValidation.errors);
-      return;
-    }
-    axios.post(`${registerNewUserUrl}`, obj).then((response) => {
-      console.log(response);
-    });
-    this.props.registerUser(obj);
+    // if (statusOfValidation.errors) {
+    //   alert(statusOfValidation.errors);
+    //   return;
+    // }
+
+    this.props.registerUser(obj, this.props.history);
   };
   render() {
     const { name, email, password, password2 } = this.state;
     const { onChange, onSubmit } = this;
-    
+    console.log(this.props.auth);
+
     return (
       <div style={{ textAlign: "center" }}>
-        <h1 className="large text-primary">Sign Up  </h1>
+        <h1 className="large text-primary">Sign Up </h1>
         <p className="lead">
           <i className="fas fa-user" /> Create Your Account
         </p>
@@ -99,10 +98,11 @@ class Register extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { auth } = state;
+  const { auth, errors } = state;
   return {
     auth: auth,
+    errors: errors,
   };
 };
 
-export default connect(mapStateToProps, { registerUser })(Register);
+export default connect(mapStateToProps, { registerUser })(withRouter(Register));
