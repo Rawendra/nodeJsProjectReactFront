@@ -1,9 +1,9 @@
-//register user
 import axios from "axios";
 import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 import { registerNewUserUrl } from "../urls/register";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
+
 export const registerUser = (userData, history) => (dispatch) => {
   axios
     .post(`${registerNewUserUrl}`, userData)
@@ -40,4 +40,11 @@ export const setCurrentUser = (decoded) => {
     type: SET_CURRENT_USER,
     payload: decoded,
   };
+};
+
+export const logoutUser = () => (dispatch) => {
+  localStorage.removeItem("jwtToken");
+  setAuthToken(false);
+  //set current user to an empty object
+  dispatch(setCurrentUser({}));
 };

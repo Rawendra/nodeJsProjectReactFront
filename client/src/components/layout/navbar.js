@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logoutUser } from "../../actions/authActions";
 
 class Navbar extends Component {
   render() {
+
+    const {user, isAuthenticated}=this.props
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
@@ -46,5 +50,13 @@ class Navbar extends Component {
     );
   }
 }
-
-export default Navbar;
+const mapStateToProps = (state) => {
+  const {
+    auth: { user, isAuthenticated },
+  } = state;
+  return {
+    user,
+    isAuthenticated,
+  };
+};
+export default connect(mapStateToProps, { logoutUser })(Navbar);

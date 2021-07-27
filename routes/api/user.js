@@ -43,7 +43,8 @@ router.post("/login", (req, res) => {
       if (isMatch) {
         // res.json({ msg: "Success" });
         //assing web token
-        const payload = { id: email, name };
+        console.log("the user found was -->", user);
+        const payload = { id: email, name: user.name, avatar: user.avatar };
         console.log("printing the secret key" + keys.secretKey);
         jwt.sign(payload, keys.secretKey, { expiresIn: 3600 }, (err, token) => {
           if (err) {
@@ -66,7 +67,7 @@ router.get("/", (req, res) => {
 router.post("/register", (req, res) => {
   const { email, name, password } = req.body;
   console.log(req.body);
-  const { errors, isValid } = validateRegisterInput({name:name});
+  const { errors, isValid } = validateRegisterInput({ name: name });
   if (!isValid) {
     return res.status(400).json({ errors, isValid });
   }
