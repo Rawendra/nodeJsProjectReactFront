@@ -4,9 +4,55 @@ import { connect } from "react-redux";
 import { logoutUser } from "../../actions/authActions";
 
 class Navbar extends Component {
+  handleLogoutUser = (e) => {
+    e.preventDefault();
+    this.props.logoutUser();
+  };
   render() {
+    const { user, isAuthenticated } = this.props;
+    const guestLinks = (
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          <Link className="nav-link" to="/register">
+            Sign Up
+          </Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/login">
+            Login
+          </Link>
+        </li>
+      </ul>
+    );
 
-    const {user, isAuthenticated}=this.props
+    const authLinks = (
+      <ul className="navbar-nav ml-auto">
+        <li className="nav-item">
+          <a className="nav-link">{user.name} </a>
+        </li>{" "}
+        <li className="nav-item">
+          <a className="nav-link">
+            {" "}
+            <img
+              src={user.avatar}
+              alt={user.name}
+              style={{ height: "25px", marginRight: "5px" }}
+              title="You must have a gravatar to display the image"
+            ></img>{" "}
+          </a>
+        </li>
+        <li className="nav-item">
+          <a
+            href="#"
+            onClick={(e) => this.handleLogoutUser(e)}
+            className="nav-link"
+          >
+            Log Out
+          </a>
+        </li>{" "}
+      </ul>
+    );
+
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
@@ -31,19 +77,7 @@ class Navbar extends Component {
                 </Link>
               </li>
             </ul>
-
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link className="nav-link" to="/register">
-                  Sign Up
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/login">
-                  Login
-                </Link>
-              </li>
-            </ul>
+            {isAuthenticated ? authLinks : guestLinks}
           </div>
         </div>
       </nav>
