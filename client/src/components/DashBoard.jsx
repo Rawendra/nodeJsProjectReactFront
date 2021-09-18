@@ -6,7 +6,15 @@ class DashBoard extends Component {
   }
 
   render() {
-    return <div>DashBoard</div>;
+    return (
+      <>
+        <a>LOGIN</a>
+        <hr/>
+        <a>SIGN UP</a>
+        <hr/>
+        <div>DashBoard</div>
+      </>
+    );
   }
 }
 
